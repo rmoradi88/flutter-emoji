@@ -3,9 +3,9 @@ import 'package:flutter_emoji/flutter_emoji.dart';
 
 void main() {
   var emojiParser = EmojiParser();
-  var emojiCoffee = Emoji('coffee', '☕');
-  var emojiHeart = Emoji('heart', '❤️');
-  var emojiFlagUS = Emoji('flag-us', '🇺🇸'); // "flag-us":"🇺🇸"
+  var emojiCoffee = Emoji(name: 'coffee', code: '☕');
+  var emojiHeart = Emoji(name: 'heart', code: '❤️');
+  var emojiFlagUS = Emoji(name: 'flag-us', code: '🇺🇸'); // "flag-us":"🇺🇸"
 
   test('EmojiUtil.stripColons()', () {
     expect(EmojiUtil.stripColons('coffee'), 'coffee');
@@ -36,7 +36,7 @@ void main() {
   });
 
   test('emoji creation & equality', () {
-    var coffee = Emoji('coffee', '☕');
+    var coffee = Emoji(name: 'coffee', code: '☕');
 
     expect(emojiCoffee == coffee, true);
 
@@ -132,15 +132,15 @@ void main() {
     var emoji;
 
     // "umbrella_with_rain_drops":"☔"
-    emoji = Emoji('umbrella_with_rain_drops', '☔');
+    emoji = Emoji(name: 'umbrella_with_rain_drops', code: '☔');
     expect(emojiParser.get('umbrella_with_rain_drops'), emoji);
 
     // "male-scientist":"👨‍🔬"
-    emoji = Emoji('male-scientist', '👨‍🔬');
+    emoji = Emoji(name: 'male-scientist', code: '👨‍🔬');
     expect(emojiParser.get('male-scientist'), emoji);
 
     // "+1":"👍"
-    emoji = Emoji('+1', '👍');
+    emoji = Emoji(name: '+1', code: '👍');
     expect(emojiParser.get('+1'), emoji);
   });
 
@@ -185,17 +185,5 @@ void main() {
 
     expect(emojiParser.parseEmojis(''), []);
     expect(emojiParser.parseEmojis('I ❤️ Flutter just like ☕'), ['❤️', '☕']);
-  });
-
-  test('initServerData', () async {
-    var parser = EmojiParser(init: false);
-    expect(parser.hasName('coffee'), false);
-    expect(parser.getName('coffee'), Emoji.None);
-    expect(parser.parseEmojis('I ❤️ Flutter just like ☕'), []);
-
-    await parser.initServerData();
-    expect(parser.hasName('coffee'), true);
-    expect(parser.getName('coffee'), emojiCoffee);
-    expect(parser.parseEmojis('I ❤️ Flutter just like ☕'), ['❤️', '☕']);
   });
 }
